@@ -7,7 +7,7 @@ Usage example:
 
     <plugins>
         <plugin>
-            <groupId>com.github.acc15</groupId>
+            <groupId>com.github.acc15.htmlres</groupId>
             <artifactId>htmlres-maven-plugin</artifactId>
             <version>1.1</version>
             <configuration>
