@@ -9,9 +9,9 @@ Usage example:
         <plugin>
             <groupId>com.github.acc15</groupId>
             <artifactId>htmlres-maven-plugin</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <configuration>
-                <template>src/test/resources/index.html</template>
+                <template>src/main/resources/index.html</template>
                 <jsResources>
                     <jsResource><url>webjars/angularjs/angular.js</url></jsResource>
                 </jsResources>
