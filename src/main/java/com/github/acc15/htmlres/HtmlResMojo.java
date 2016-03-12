@@ -8,7 +8,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 @Mojo(name = "htmlres", defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
@@ -31,6 +30,12 @@ public class HtmlResMojo extends AbstractMojo implements ResourceGroup {
 
     @Parameter
     private String urlPrefix;
+
+    @Parameter
+    private String templateEncoding = "UTF-8";
+
+    @Parameter
+    private String targetEncoding = "UTF-8";
 
     @Parameter
     private List<HtmlResource> jsResources;
@@ -57,24 +62,23 @@ public class HtmlResMojo extends AbstractMojo implements ResourceGroup {
             throw new IllegalArgumentException("missing template file");
         }
 
-        final LinkedHashSet<String> jsUrls = extractUrls(group.getJsResources(), group);
-        final LinkedHashSet<String> cssUrls = extractUrls(group.getCssResources(), group);
         final HtmlTemplateProcessor templateProcessor = new HtmlTemplateProcessor();
         try {
-            templateProcessor.substituteUrls(group.getTemplate(), group.getTargetFile(), jsUrls, cssUrls);
+            templateProcessor.substituteUrls(group);
         } catch (IOException e) {
             throw new RuntimeException("Can't render template \'" + group.getTemplate() + "\" to \"" + group.getTargetFile() + "\"", e);
         }
     }
 
-    private static LinkedHashSet<String> extractUrls(List<HtmlResource> resources, ResourceGroup group) {
-        final LinkedHashSet<String> urls = new LinkedHashSet<>();
-        if (resources != null) {
-            resources.forEach(r -> r.extractUrls(urls, group));
-        }
-        return urls;
+    @Override
+    public String getTemplateEncoding() {
+        return templateEncoding;
     }
 
+    @Override
+    public String getTargetEncoding() {
+        return targetEncoding;
+    }
 
     @Override
     public File getTargetFile() {

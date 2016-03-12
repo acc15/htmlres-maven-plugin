@@ -51,7 +51,22 @@ Usage example:
         </plugin>
     </plugins>
 
+Html template example:
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello</title>
+        <!-- ${maven.htmlres.css} -->
+    </head>
+    <body>
+        <div id="wrapper" ui-view></div>
+        <!-- ${maven.htmlres.js} -->
+    </body>
+    </html>
+
 This will generate two html files `target/index.html` and `target/index.min.html` with
 all required javascript and css urls.
 
-`index.min.html` will contain urls to minified files
+`index.min.html` will contain urls to minified javascript and css files

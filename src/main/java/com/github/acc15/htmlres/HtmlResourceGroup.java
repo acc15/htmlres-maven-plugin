@@ -12,6 +12,8 @@ public class HtmlResourceGroup implements ResourceGroup {
     private File template;
     private File targetFile;
     private String urlPrefix;
+    private String templateEncoding;
+    private String targetEncoding;
     private List<HtmlResource> jsResources;
     private List<HtmlResource> cssResources;
 
@@ -25,12 +27,22 @@ public class HtmlResourceGroup implements ResourceGroup {
         if (minSuffix == null) {
             minSuffix = parent.getMinSuffix();
         }
+
         if (targetFile == null) {
             targetFile = parent.getTargetFile();
+            targetEncoding = parent.getTargetEncoding();
+        }
+        if (targetEncoding == null) {
+            targetEncoding = parent.getTargetEncoding();
         }
         if (template == null) {
             template = parent.getTemplate();
+            templateEncoding = parent.getTemplateEncoding();
         }
+        if (templateEncoding == null) {
+            parent.getTemplateEncoding();
+        }
+
         if (jsResources == null) {
             jsResources = parent.getJsResources();
         } else if (parent.getJsResources() != null) {
@@ -42,6 +54,8 @@ public class HtmlResourceGroup implements ResourceGroup {
             cssResources.addAll(0, parent.getCssResources());
         }
     }
+
+
 
     public String getId() {
         return id;
@@ -95,12 +109,30 @@ public class HtmlResourceGroup implements ResourceGroup {
     }
 
     @Override
+    public String getTemplateEncoding() {
+        return templateEncoding;
+    }
+
+    public void setTemplateEncoding(String templateEncoding) {
+        this.templateEncoding = templateEncoding;
+    }
+
+    @Override
     public File getTargetFile() {
         return targetFile;
     }
 
     public void setTargetFile(File targetFile) {
         this.targetFile = targetFile;
+    }
+
+    @Override
+    public String getTargetEncoding() {
+        return targetEncoding;
+    }
+
+    public void setTargetEncoding(String targetEncoding) {
+        this.targetEncoding = targetEncoding;
     }
 
     @Override

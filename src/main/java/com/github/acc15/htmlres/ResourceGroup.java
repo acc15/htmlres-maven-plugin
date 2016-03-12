@@ -13,6 +13,8 @@ public interface ResourceGroup {
     String getMinSuffix();
     File getTemplate();
     File getTargetFile();
+    String getTemplateEncoding();
+    String getTargetEncoding();
     List<HtmlResource> getJsResources();
     List<HtmlResource> getCssResources();
 
