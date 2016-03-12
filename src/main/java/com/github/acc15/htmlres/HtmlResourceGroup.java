@@ -6,14 +6,93 @@ import java.util.List;
 /**
  * Created by acc15 on 12.03.16.
  */
-public class HtmlResourceGroup {
+public class HtmlResourceGroup implements ResourceGroup {
 
-    String id;
-    String parent;
-    boolean useMinified;
-    String minSuffix;
-    File targetFile;
-    List<HtmlResource> jsResources;
-    List<HtmlResource> cssResources;
+    private String id;
+    private String parent;
+    private Boolean useMinified;
+    private String minSuffix;
+    private File template;
+    private File targetFile;
+    private String urlPrefix;
+    private List<HtmlResource> jsResources;
+    private List<HtmlResource> cssResources;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getUrlPrefix() {
+        return urlPrefix;
+    }
+
+    public void setUrlPrefix(String urlPrefix) {
+        this.urlPrefix = urlPrefix;
+    }
+
+    public Boolean getUseMinified() {
+        return useMinified;
+    }
+
+    public void setUseMinified(Boolean useMinified) {
+        this.useMinified = useMinified;
+    }
+
+    @Override
+    public String getMinSuffix() {
+        return minSuffix;
+    }
+
+    public void setMinSuffix(String minSuffix) {
+        this.minSuffix = minSuffix;
+    }
+
+    @Override
+    public File getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(File template) {
+        this.template = template;
+    }
+
+    @Override
+    public File getTargetFile() {
+        return targetFile;
+    }
+
+    public void setTargetFile(File targetFile) {
+        this.targetFile = targetFile;
+    }
+
+    @Override
+    public List<HtmlResource> getJsResources() {
+        return jsResources;
+    }
+
+    public void setJsResources(List<HtmlResource> jsResources) {
+        this.jsResources = jsResources;
+    }
+
+    @Override
+    public List<HtmlResource> getCssResources() {
+        return cssResources;
+    }
+
+    public void setCssResources(List<HtmlResource> cssResources) {
+        this.cssResources = cssResources;
+    }
 }

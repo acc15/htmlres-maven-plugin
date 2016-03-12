@@ -17,14 +17,20 @@
                 <version>${project.version}</version>
                 <configuration>
                     <template>src/test/resources/index.html</template>
+                    <jsResources>
+                        <jsResource><url>root.js</url></jsResource>
+                    </jsResources>
+                    <cssResources>
+                        <cssResource><url>root.css</url></cssResource>
+                    </cssResources>
                     <groups>
                         <group>
-                            <id>parent</id>
+                            <id>common</id>
                             <jsResources>
+                                <jsResource><url>test1.js</url></jsResource>
                                 <jsResource>
                                     <dir>src/test/resources/js</dir>
                                     <includes>
-                                        <include>test1.js</include>
                                         <include>**/*.js</include>
                                     </includes>
                                 </jsResource>
@@ -39,8 +45,12 @@
                             </cssResources>
                         </group>
                         <group>
-                            <id>ext</id>
-                            <useMinified></useMinified>
+                            <parent>common</parent>
+                            <useMinified>true</useMinified>
+                            <targetFile>target/processed.html</targetFile>
+                            <jsResources>
+                                <jsResource><url>specific.js</url></jsResource>
+                            </jsResources>
                         </group>
                     </groups>
                 </configuration>
