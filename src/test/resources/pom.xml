@@ -18,39 +18,38 @@
                 <configuration>
                     <template>src/test/resources/index.html</template>
                     <jsResources>
-                        <jsResource><url>root.js</url></jsResource>
+                        <jsResource><url>lib/js/angular.js</url></jsResource>
                     </jsResources>
-                    <cssResources>
-                        <cssResource><url>root.css</url></cssResource>
-                    </cssResources>
                     <groups>
                         <group>
-                            <id>common</id>
+                            <targetFile>target/index.html</targetFile>
                             <jsResources>
-                                <jsResource><url>test1.js</url></jsResource>
+                                <jsResource><url>js/app.js</url></jsResource>
                                 <jsResource>
-                                    <dir>src/test/resources/js</dir>
+                                    <dir>src/test/resources</dir>
                                     <includes>
-                                        <include>**/*.js</include>
+                                        <include>js/**/*.js</include>
                                     </includes>
                                 </jsResource>
                             </jsResources>
                             <cssResources>
                                 <cssResource>
-                                    <dir>src/test/resources/css</dir>
+                                    <dir>src/test/resources</dir>
                                     <includes>
-                                        <include>**/*.css</include>
+                                        <include>css/**/*.css</include>
                                     </includes>
                                 </cssResource>
                             </cssResources>
                         </group>
                         <group>
-                            <parent>common</parent>
                             <useMinified>true</useMinified>
-                            <targetFile>target/processed.html</targetFile>
+                            <targetFile>target/index.min.html</targetFile>
                             <jsResources>
-                                <jsResource><url>specific.js</url></jsResource>
+                                <jsResource><url>all.js</url></jsResource>
                             </jsResources>
+                            <cssResources>
+                                <cssResource><url>all.css</url></cssResource>
+                            </cssResources>
                         </group>
                     </groups>
                 </configuration>
