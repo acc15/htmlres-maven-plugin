@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>test-group</groupId>
+    <artifactId>test-artifact</artifactId>
+    <version>0.0.0.5-SNAPSHOT</version>
+
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.acc15</groupId>
+                <artifactId>htmlres-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <configuration>
+                    <template>src/test/resources/index.html</template>
+                    <groups>
+                        <group>
+                            <id>parent</id>
+                            <jsResources>
+                                <jsResource>
+                                    <dir>src/test/resources/js</dir>
+                                    <includes>
+                                        <include>test1.js</include>
+                                        <include>**/*.js</include>
+                                    </includes>
+                                </jsResource>
+                            </jsResources>
+                            <cssResources>
+                                <cssResource>
+                                    <dir>src/test/resources/css</dir>
+                                    <includes>
+                                        <include>**/*.css</include>
+                                    </includes>
+                                </cssResource>
+                            </cssResources>
+                        </group>
+                        <group>
+                            <id>ext</id>
+                            <useMinified></useMinified>
+                        </group>
+                    </groups>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
