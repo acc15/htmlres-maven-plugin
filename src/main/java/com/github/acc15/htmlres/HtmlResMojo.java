@@ -15,12 +15,8 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mojo(name = "htmlres", defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
@@ -50,18 +46,12 @@ public class HtmlResMojo extends AbstractMojo implements ResourceGroup {
     @Parameter
     private List<HtmlResource> cssResources;
 
-    private final Map<String, HtmlResourceGroup> groupMap = new HashMap<>();
-    private final Set<HtmlResourceGroup> flatGroups = new HashSet<>();
-
     public void execute() throws MojoExecutionException {
-        if (groups != null) {
-            groups.stream().filter(group -> group.getId() != null).forEach(group -> {
-                groupMap.put(group.getId(), group);
-            });
-            groups.forEach(this::flattenGroup);
-        }
         processGroup(this);
-        groups.forEach(this::processGroup);
+        if (groups != null) {
+            new HtmlResourceGroupMergeHelper(this).mergeGroups(groups);
+            groups.forEach(this::processGroup);
+        }
     }
 
     private void processGroup(ResourceGroup group) {
@@ -163,49 +153,6 @@ public class HtmlResMojo extends AbstractMojo implements ResourceGroup {
         }
         final String urlPrefix = resource.getUrlPrefix() != null ? resource.getUrlPrefix() : group.getUrlPrefix();
         return urlPrefix != null ? urlPrefix + url : url;
-    }
-
-    private void flattenGroup(HtmlResourceGroup group) {
-        if (flatGroups.contains(group)) {
-            // group already flat
-            return;
-        }
-
-        ResourceGroup parent = this;
-        if (group.getParent() != null) {
-            final HtmlResourceGroup parentGroup = groupMap.get(group.getParent());
-            if (parentGroup == null) {
-                throw new IllegalArgumentException("illegal parent group id: " + group.getParent());
-            }
-            flattenGroup(parentGroup);
-            parent = parentGroup;
-        }
-        if (group.getUseMinified() == null) {
-            group.setUseMinified(parent.getUseMinified());
-        }
-        if (group.getUrlPrefix() == null) {
-            group.setUrlPrefix(parent.getUrlPrefix());
-        }
-        if (group.getMinSuffix() == null) {
-            group.setMinSuffix(parent.getMinSuffix());
-        }
-        if (group.getTargetFile() == null) {
-            group.setTargetFile(parent.getTargetFile());
-        }
-        if (group.getTemplate() == null) {
-            group.setTemplate(parent.getTemplate());
-        }
-        if (group.getJsResources() == null) {
-            group.setJsResources(parent.getJsResources());
-        } else if (parent.getJsResources() != null) {
-            group.getJsResources().addAll(0, parent.getJsResources());
-        }
-        if (group.getCssResources() == null) {
-            group.setCssResources(parent.getCssResources());
-        } else if (parent.getCssResources() != null) {
-            group.getCssResources().addAll(0, parent.getCssResources());
-        }
-        flatGroups.add(group);
     }
 
     @Override

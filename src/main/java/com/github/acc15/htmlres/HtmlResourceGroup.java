@@ -3,9 +3,6 @@ package com.github.acc15.htmlres;
 import java.io.File;
 import java.util.List;
 
-/**
- * Created by acc15 on 12.03.16.
- */
 public class HtmlResourceGroup implements ResourceGroup {
 
     private String id;
@@ -17,6 +14,34 @@ public class HtmlResourceGroup implements ResourceGroup {
     private String urlPrefix;
     private List<HtmlResource> jsResources;
     private List<HtmlResource> cssResources;
+
+    public void merge(ResourceGroup parent) {
+        if (useMinified == null) {
+            useMinified = parent.getUseMinified();
+        }
+        if (urlPrefix == null) {
+            urlPrefix = parent.getUrlPrefix();
+        }
+        if (minSuffix == null) {
+            minSuffix = parent.getMinSuffix();
+        }
+        if (targetFile == null) {
+            targetFile = parent.getTargetFile();
+        }
+        if (template == null) {
+            template = parent.getTemplate();
+        }
+        if (jsResources == null) {
+            jsResources = parent.getJsResources();
+        } else if (parent.getJsResources() != null) {
+            jsResources.addAll(0, parent.getJsResources());
+        }
+        if (cssResources == null) {
+            cssResources = parent.getCssResources();
+        } else if (parent.getCssResources() != null) {
+            cssResources.addAll(0, parent.getCssResources());
+        }
+    }
 
     public String getId() {
         return id;
