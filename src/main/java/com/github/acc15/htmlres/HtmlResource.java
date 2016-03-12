@@ -1,6 +1,12 @@
 package com.github.acc15.htmlres;
 
+import org.codehaus.plexus.util.DirectoryScanner;
+
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Vyacheslav Mayorov
@@ -16,6 +22,58 @@ public class HtmlResource {
     private File dir;
     private String[] includes;
     private String[] excludes;
+
+    public void extractUrls(Collection<String> urls, ResourceGroup group) {
+        if (url != null) {
+            urls.add(getTargetUrl(url, group));
+            return;
+        }
+
+        if (dir != null) {
+            final DirectoryScanner scanner = new DirectoryScanner();
+            scanner.setBasedir(dir);
+            if (includes != null) {
+                scanner.setIncludes(includes);
+            }
+            if (excludes != null) {
+                scanner.setExcludes(excludes);
+            }
+            scanner.scan();
+
+            urls.addAll(Arrays.asList(scanner.getIncludedFiles()).stream().
+                    map(s -> getTargetUrl(s.replace('\\', '/'), group)).
+                    collect(Collectors.toList()));
+        }
+    }
+
+    private String getTargetUrl(String url, ResourceGroup group) {
+        final boolean useMinified = getUseMinified(group);
+        if (useMinified) {
+            final String minSuffix = getMinSuffix(group);
+            if (minSuffix != null) {
+                final int extPos = url.lastIndexOf('.');
+                if (extPos < 0) {
+                    url = url + minSuffix;
+                } else {
+                    url = url.substring(0, extPos) + minSuffix + url.substring(extPos);
+                }
+            }
+        }
+        final String urlPrefix = getUrlPrefix(group);
+        return urlPrefix != null ? urlPrefix + url : url;
+    }
+
+    private boolean getUseMinified(ResourceGroup group) {
+        return useMinified != null ? useMinified : group.getUseMinified();
+    }
+
+    private String getMinSuffix(ResourceGroup group) {
+        return minSuffix != null ? minSuffix : group.getMinSuffix();
+    }
+
+    private String getUrlPrefix(ResourceGroup group) {
+        return urlPrefix != null ? urlPrefix : group.getUrlPrefix();
+    }
 
     public String getUrlPrefix() {
         return urlPrefix;
