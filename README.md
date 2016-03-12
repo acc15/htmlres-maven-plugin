@@ -1,13 +1,15 @@
 # htmlres-maven-plugin
 Maven Plugin which automatically generates HTML files with resource links
 
+Plugin is deployed to Maven Central
+
 Usage example:
 
     <plugins>
         <plugin>
             <groupId>com.github.acc15</groupId>
             <artifactId>htmlres-maven-plugin</artifactId>
-            <version>${project.version}</version>
+            <version>1.0</version>
             <configuration>
                 <template>src/test/resources/index.html</template>
                 <jsResources>
