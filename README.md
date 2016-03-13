@@ -48,6 +48,13 @@ Usage example:
                     </group>
                 </groups>
             </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>htmlres</goal>
+                    </goals>
+                </execution>
+            </executions>
         </plugin>
     </plugins>
 
